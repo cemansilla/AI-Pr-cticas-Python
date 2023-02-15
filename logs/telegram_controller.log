@@ -1,9 +1,0 @@
-DEBUG:asyncio:Using proactor: IocpProactor
-DEBUG:root:recibí mensaje de audio
-INFO:root:{'update_id': 75417761, 'message': {'message_id': 158, 'from': {'id': 800524443, 'is_bot': False, 'first_name': 'Cesar', 'username': 'cemansilla', 'language_code': 'es'}, 'chat': {'id': 800524443, 'first_name': 'Cesar', 'username': 'cemansilla', 'type': 'private'}, 'date': 1676494327, 'voice': {'duration': 1, 'mime_type': 'audio/ogg', 'file_id': 'AwACAgEAAxkBAAOeY-1F956Cqm9Umy60EegnBLRpNl0AAvICAALLgmhH7aaakesh9YIuBA', 'file_unique_id': 'AgAD8gIAAsuCaEc', 'file_size': 24449}}}
-DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): api.telegram.org:443
-DEBUG:urllib3.connectionpool:https://api.telegram.org:443 "GET /bot6068207772:AAEWuHhf68bhgMUfpjXDRnhx22S2WM5d_Tg/getFile?file_id=AwACAgEAAxkBAAOeY-1F956Cqm9Umy60EegnBLRpNl0AAvICAALLgmhH7aaakesh9YIuBA HTTP/1.1" 200 190
-DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): api.telegram.org:443
-DEBUG:urllib3.connectionpool:https://api.telegram.org:443 "GET /file/bot6068207772:AAEWuHhf68bhgMUfpjXDRnhx22S2WM5d_Tg/voice/file_38.oga HTTP/1.1" 200 24449
-DEBUG:root:response de get_file
-INFO:root:{'success': True, 'data': {'filename': 'd13ff4d2587fbd7b0e7f54090b7f36ee226eba0a13a8b19a7f4afcb815d35a35.oga', 'path': 'data/audios\\d13ff4d2587fbd7b0e7f54090b7f36ee226eba0a13a8b19a7f4afcb815d35a35.oga'}}
