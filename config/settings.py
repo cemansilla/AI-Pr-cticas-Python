@@ -14,8 +14,12 @@ if IN_COLAB:
 load_dotenv(find_dotenv())
 
 DATABASE_URI = os.getenv('DATABASE_URI')
-JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
-JWT_ALGORITHM = os.getenv('JWT_ALGORITHM')
 USE_NGROK = os.getenv('USE_NGROK', "False") == "True"
 BASE_URL = os.getenv('BASE_URL')
 PORT = int(os.getenv('PORT'))
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+OPENAI_API_BASE_URL=os.getenv('OPENAI_API_BASE_URL')
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+TELEGRAM_GROUP_ID = os.getenv('TELEGRAM_GROUP_ID')
+TELEGRAM_PERSONAL_ID = os.getenv('TELEGRAM_PERSONAL_ID')
+TELEGRAM_API_BASE_URL=os.getenv('TELEGRAM_API_BASE_URL')

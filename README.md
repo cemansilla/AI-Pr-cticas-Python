@@ -2,7 +2,8 @@
 
 ## Entorno virtual
 ### Activar entorno virtual
-`source .venv/bin/activate`
+Mac: `source .venv/bin/activate`
+Win: `.\.venv\Scripts\activate`
 
 ### Volcar paquetes a archivo requirements.txt
 `pip freeze > requirements.txt`
