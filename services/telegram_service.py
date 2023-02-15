@@ -69,7 +69,7 @@ class TelegramService:
       try:
         extension = os.path.splitext(file_path)[1]
 
-        directory = 'data/audios'
+        directory = 'data/audios/telegram'
         filename = hashlib.sha256((str(time.time()) + file_unique_id).encode()).hexdigest()
         file = filename + extension
         path = os.path.join(directory, file)

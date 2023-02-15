@@ -34,10 +34,6 @@ class OpenAIService:
     model = whisper.load_model("base")
     model.device
 
-    # Forma básica
-    #result = model.transcribe("/content/openai-whisper-webapp/mary.mp3")
-    #print(result["text"])
-
     # load audio and pad/trim it to fit 30 seconds
     audio = whisper.load_audio(audio)
     audio = whisper.pad_or_trim(audio)
@@ -50,6 +46,6 @@ class OpenAIService:
     language = max(probs, key=probs.get)
 
     # decode the audio
-    options = whisper.DecodingOptions()
+    options = whisper.DecodingOptions(fp16 = False)
     result = whisper.decode(model, mel, options)
     return {"language": language, "text": result.text}

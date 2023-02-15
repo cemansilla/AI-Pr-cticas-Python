@@ -34,13 +34,17 @@ class TelegramController:
       logging.debug("response de get_file")
       logging.info(response)
       if response['success']:
-        print("if success")
         transcribe_response = self.openai.transcribe(response['data']['path'])
-        print('transcribe_response', transcribe_response)
-      else:
-        print("else success")
 
-      prompt = "Generar mensaje gracioso para notificar que esta funcionalidad aún está en desarrollo. Darme la respuesta directa, sin ninguna introducción ni cierre agregado a lo que pido. Tampoco entregar la respuesta entre comillas."
+        if "text" in transcribe_response:
+          prompt = transcribe_response['text']
+          logging.debug("WHISPER | transcribió correctamente: " + prompt)
+        else:
+          logging.debug("WHISPER | error en transcripcion")
+          prompt = "Generar mensaje gracioso para notificar que ocurrió un error procesando el mensaje de audio. Dar respuesta como si fuera un robot."
+      else:
+        logging.debug("WHISPER | error procesando el archivo")
+        prompt = "Generar mensaje gracioso para notificar que ocurrió un error entendiendo el mensaje de audio."
     else:
       logging.debug("recibí mensaje sin detectar tipo, sale por defecto")
       prompt = "Generar mensaje gracioso para notificar que no entiendo el mensaje que me dijeron o que no tengo respuesta. Darme la respuesta directa, sin ninguna introducción ni cierre agregado a lo que pido. Tampoco entregar la respuesta entre comillas."
