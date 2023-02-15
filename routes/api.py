@@ -28,6 +28,7 @@ async def do_telegram_send(request: Request):
 
 @router.post("/api/telegram/updates")
 async def do_telegram_get_updates(request: Request):
+  print("telegram updates routes", request)
   body = await request.json()
   return telegram_controller.updates(body)
 

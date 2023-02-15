@@ -1,11 +1,15 @@
 import requests
+import os
 import logging
-#import whisper
+import whisper
 from config.settings import *
 
 class OpenAIService:
-  def __init__():
-    logging.basicConfig(filename='openai_service.log', level=logging.DEBUG)
+  def __init__(self):
+    log_directory = 'logs'
+    if not os.path.exists(log_directory):
+        os.makedirs(log_directory)
+    logging.basicConfig(filename=os.path.join(log_directory, 'openai_service.log'), encoding='utf-8', level=logging.DEBUG)
 
   def completition(self, prompt):
     response = requests.post(OPENAI_API_BASE_URL + "completions", json={
@@ -21,12 +25,11 @@ class OpenAIService:
     gpt_response = response.json()
     gpt_response_text = gpt_response['choices'][0]['text'].lstrip("\r\n")
 
-    logging.debug("Respuesta GPT-3", extra={'gpt_response': gpt_response})
+    logging.debug("Respuesta GPT-3")
+    logging.info(gpt_response)
     return gpt_response_text
 
-  def transcribe(audio):
-    return {"fake":"respuesta fake desde transcribe"}
-    """
+  def transcribe(self, audio):
     # Cargo modelo
     model = whisper.load_model("base")
     model.device
@@ -47,7 +50,6 @@ class OpenAIService:
     language = max(probs, key=probs.get)
 
     # decode the audio
-    options = whisper.DecodingOptions(fp16 = False)
+    options = whisper.DecodingOptions()
     result = whisper.decode(model, mel, options)
     return {"language": language, "text": result.text}
-    """

@@ -1,4 +1,6 @@
 import os
+import hashlib
+import time
 import json
 import requests
 import logging
@@ -8,8 +10,12 @@ from config.settings import *
 
 class TelegramService:
   def __init__(self):
+    log_directory = 'logs'
+    if not os.path.exists(log_directory):
+        os.makedirs(log_directory)
+    logging.basicConfig(filename=os.path.join(log_directory, 'telegram_service.log'), encoding='utf-8', level=logging.DEBUG)
+
     self.openai_service = OpenAIService()
-    logging.basicConfig(filename='telegram_service.log', level=logging.DEBUG)
 
   def send_message(self, message: str) -> dict:
     api_url = TELEGRAM_API_BASE_URL + "bot" + TELEGRAM_BOT_TOKEN + "/sendMessage"
@@ -63,8 +69,9 @@ class TelegramService:
       try:
         extension = os.path.splitext(file_path)[1]
 
-        directory = 'audios'
-        file = os.path.join(directory, file_unique_id + extension)
+        directory = 'data/audios'
+        filename = hashlib.sha256((str(time.time()) + file_unique_id).encode()).hexdigest()
+        file = filename + extension
         path = os.path.join(directory, file)
 
         if not os.path.exists(directory):
@@ -73,7 +80,7 @@ class TelegramService:
         download_response = requests.get(download_uri)
 
         if download_response.ok:
-          with open(path, 'wb') as f:
+          with open(os.path.join(directory, file), 'wb') as f:
             f.write(download_response.content)
 
           response = {'success': True, 'data': {
