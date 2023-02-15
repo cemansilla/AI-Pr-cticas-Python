@@ -1,13 +1,15 @@
 import os
 import json
 import requests
+import logging
 from fastapi import HTTPException
 from services.openai_service import OpenAIService
 from config.settings import *
 
 class TelegramService:
-  def __init__(self, openai_service: OpenAIService):
-    self.openai_service = openai_service
+  def __init__(self):
+    self.openai_service = OpenAIService()
+    logging.basicConfig(filename='telegram_service.log', level=logging.DEBUG)
 
   def send_message(self, message: str) -> dict:
     api_url = TELEGRAM_API_BASE_URL + "bot" + TELEGRAM_BOT_TOKEN + "/sendMessage"
@@ -24,6 +26,15 @@ class TelegramService:
 
   def set_webhook(self, webhook_url: str) -> dict:
     api_url = TELEGRAM_API_BASE_URL + "bot" + TELEGRAM_BOT_TOKEN + "/setWebhook?url=" + webhook_url
+
+    response = requests.get(api_url)
+    if not response.ok:
+      raise HTTPException(status_code=500, detail="Error setting Telegram webhook")
+
+    return json.loads(response.text)
+  
+  def delete_webhook(self) -> dict:
+    api_url = TELEGRAM_API_BASE_URL + "bot" + TELEGRAM_BOT_TOKEN + "/deleteWebhook"
 
     response = requests.get(api_url)
 

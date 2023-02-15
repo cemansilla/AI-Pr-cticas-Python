@@ -21,16 +21,11 @@ if __name__ == "__main__":
     # pyngrok should only ever be installed or initialized in a dev environment when this flag is set
     from pyngrok import ngrok
 
-    ngrok.set_auth_token("2LbDfCormSj2F476pcyn7qWKgzV_7V3JJ1aA6fCrsLGB1WhT1")
-
-    # Get the dev server port (defaults to 8000 for Uvicorn, can be overridden with `--port`
-    # when starting the server
-    port = PORT
-
     # Open a ngrok tunnel to the dev server
-    public_url = ngrok.connect(port).public_url
-    print("ngrok tunnel \"{}\" -> \"{}:{}\"".format(public_url, BASE_URL, port))
+    ngrok.set_auth_token("2LbDfCormSj2F476pcyn7qWKgzV_7V3JJ1aA6fCrsLGB1WhT1")
+    public_url = ngrok.connect(PORT).public_url
+    print("ngrok tunnel \"{}\" -> \"{}:{}\"".format(public_url, BASE_URL, PORT))
   
-  config = uvicorn.Config("main:app", port=port, log_level="info", reload=True)
-  server = uvicorn.Server(config)
-  server.run()
+    uvicorn.run("main:app", host="0.0.0.0", port=PORT, log_level="info")
+  else:
+    uvicorn.run("main:app", host="localhost", port=PORT, log_level="info")

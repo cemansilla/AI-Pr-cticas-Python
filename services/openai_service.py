@@ -1,11 +1,14 @@
 import requests
 import logging
-import whisper
+#import whisper
 from config.settings import *
 
 class OpenAIService:
+  def __init__():
+    logging.basicConfig(filename='openai_service.log', level=logging.DEBUG)
+
   def completition(self, prompt):
-    response = requests.post(OPENAI_API_BASE_URL, json={
+    response = requests.post(OPENAI_API_BASE_URL + "completions", json={
       'model': "text-davinci-003",
       'prompt': prompt,
       'max_tokens': 128,
@@ -18,10 +21,12 @@ class OpenAIService:
     gpt_response = response.json()
     gpt_response_text = gpt_response['choices'][0]['text'].lstrip("\r\n")
 
-    logging.getLogger('telegram').debug("Respuesta GPT-3", extra={'gpt_response': gpt_response})
+    logging.debug("Respuesta GPT-3", extra={'gpt_response': gpt_response})
     return gpt_response_text
 
   def transcribe(audio):
+    return {"fake":"respuesta fake desde transcribe"}
+    """
     # Cargo modelo
     model = whisper.load_model("base")
     model.device
@@ -45,3 +50,4 @@ class OpenAIService:
     options = whisper.DecodingOptions(fp16 = False)
     result = whisper.decode(model, mel, options)
     return {"language": language, "text": result.text}
+    """
