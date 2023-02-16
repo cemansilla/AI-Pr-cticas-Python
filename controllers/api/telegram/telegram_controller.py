@@ -1,5 +1,4 @@
 from typing import List
-import os
 import logging
 from werkzeug.utils import secure_filename
 from services.openai_service import OpenAIService
@@ -7,11 +6,6 @@ from services.telegram_service import TelegramService
 
 class TelegramController:
   def __init__(self):
-    log_directory = 'logs'
-    if not os.path.exists(log_directory):
-        os.makedirs(log_directory)
-    logging.basicConfig(filename=os.path.join(log_directory, 'telegram_controller.log'), encoding='utf-8', level=logging.DEBUG)
-
     self.openai = OpenAIService()
     self.telegram = TelegramService()
 

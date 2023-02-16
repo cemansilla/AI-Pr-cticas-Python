@@ -1,16 +1,9 @@
 import requests
-import os
 import logging
 import whisper
 from config.settings import *
 
 class OpenAIService:
-  def __init__(self):
-    log_directory = 'logs'
-    if not os.path.exists(log_directory):
-        os.makedirs(log_directory)
-    logging.basicConfig(filename=os.path.join(log_directory, 'openai_service.log'), encoding='utf-8', level=logging.DEBUG)
-
   def completition(self, prompt):
     response = requests.post(OPENAI_API_BASE_URL + "completions", json={
       'model': "text-davinci-003",
