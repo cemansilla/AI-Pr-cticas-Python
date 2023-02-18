@@ -16,9 +16,11 @@ Para que funcione `whisper` se necesita tener instalado `ffmpeg`.
 
 ### Notas ffmpeg
 Tuve varios errores en el proceso de utiliazar Whisper porque no reconocía ffmpeg dentro del entorno virtual.
-Para corregirlo ejecuté: `setx PATH "%PATH%;C:\Users\ceman\scoop\apps\ffmpeg\5.1.2\bin\ffmpeg.exe"`, solo tener en cuenta modificar el path que corresponda a ffmpeg. De todas formas no me funcionó.
 
 Lo solucioné copiando en el root del entorno virtual los archivos ffmpeg.exe el resto que se instalaron con Scoop en mi PC.
+
+Luego, una mejor alternativa fué especificar dentro del archivo "activate"del entorno virual el path a ffmpeg, agregar después de la inicialización de PATH lo siguiente en una nueva línea:
+`set PATH=C:\Users\ceman\scoop\apps\ffmpeg\current\bin;%PATH%`
 
 ### on Ubuntu or Debian
 sudo apt update && sudo apt install ffmpeg
