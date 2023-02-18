@@ -1,4 +1,3 @@
-import logging
 from fastapi import HTTPException
 from services.openai_service import OpenAIService
 

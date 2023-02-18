@@ -1,14 +1,13 @@
 import requests
-import logging
 import whisper
 from config.settings import *
 
 class OpenAIService:
-  def completition(self, prompt):
+  def completion(self, prompt):
     response = requests.post(OPENAI_API_BASE_URL + "completions", json={
       'model': "text-davinci-003",
       'prompt': prompt,
-      'max_tokens': 128,
+      'max_tokens': 512,
       'temperature': 0.5,
     }, headers={
       'Authorization': 'Bearer ' + OPENAI_API_KEY,
@@ -18,8 +17,6 @@ class OpenAIService:
     gpt_response = response.json()
     gpt_response_text = gpt_response['choices'][0]['text'].lstrip("\r\n")
 
-    logging.debug("Respuesta GPT-3")
-    logging.info(gpt_response)
     return gpt_response_text
 
   def transcribe(self, audio):

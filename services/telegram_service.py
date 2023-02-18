@@ -3,7 +3,6 @@ import hashlib
 import time
 import json
 import requests
-import logging
 from fastapi import HTTPException
 from config.settings import *
 
