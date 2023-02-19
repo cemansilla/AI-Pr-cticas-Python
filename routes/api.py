@@ -55,3 +55,7 @@ async def do_speech_to_text(file: UploadFile, file_name: str = Form(...)):
 async def do_image_generate(request: Request):
   body = await request.json()
   return stable_diffusion_controller.generate_from_prompt(body)
+
+@router.get("/pyapi/sd/models")
+async def do_image_generate():
+  return stable_diffusion_controller.get_models()
