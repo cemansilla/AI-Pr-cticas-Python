@@ -2,6 +2,7 @@ from fastapi import APIRouter,Request,UploadFile,Form
 from controllers.api.openai.chatgpt_controller import ChatGPTController
 from controllers.api.openai.whisper_controller import WhisperController
 from controllers.api.telegram.telegram_controller import TelegramController
+from controllers.api.stable_diffusion.stable_diffusion_controller import StableDiffusionController
 from controllers.web import *
 
 router = APIRouter()
@@ -9,6 +10,7 @@ router = APIRouter()
 telegram_controller = TelegramController()
 chatgpt_controller = ChatGPTController()
 whisper_controller = WhisperController()
+stable_diffusion_controller = StableDiffusionController()
 
 @router.get("/")
 def home():
@@ -48,3 +50,8 @@ async def do_pyapi_chat(request: Request):
 async def do_speech_to_text(file: UploadFile, file_name: str = Form(...)):
   file_contents = await file.read()
   return await whisper_controller.speech_to_text(file_contents, file_name)
+
+@router.post("/pyapi/image")
+async def do_image_generate(request: Request):
+  body = await request.json()
+  return stable_diffusion_controller.generate_from_prompt(body)
