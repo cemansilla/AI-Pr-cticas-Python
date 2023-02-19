@@ -36,3 +36,15 @@ choco install ffmpeg
 
 ### on Windows using Scoop (https://scoop.sh/)
 scoop install ffmpeg
+
+## Stable Diffusion
+Se clonó el WebUI de Stable Diffusion, fué agregado como submódulo.
+
+Si se desea levantar el proyecto en otro servidor, se debe clonar así:
+`git clone --recursive <url_del_repositorio_principal>`
+
+Actualizar submodulos:
+`git submodule update --init --recursive`
+
+Levantar el SD WebUI en modo API: `python launch.py --nowebui`
+En caso de que cambie la URL o puerto, hay que actualizar la API de Laravel, ya que utiliza esta URL para obtener las imágenes.
