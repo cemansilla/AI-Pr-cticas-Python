@@ -61,6 +61,42 @@ class CustomController:
     self.openai = OpenAIService()
     self.sd = StableDiffusionService()
 
+  def sentiment(self, request):    
+    result = None
+
+    if 'text' in request:
+      try:
+        nltk.download('vader_lexicon')
+        from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+        texto_spanish = request['text']
+        texto_english = self.openai.completion(f"Traducir a inglés el siguiente texto, no agregar ninguna introducción ni cierre a la frase, solo devolver la traducción: {texto_spanish}")
+        analyzer = SentimentIntensityAnalyzer()
+        scores = analyzer.polarity_scores(texto_english)
+
+        analysis_result = f"El texto \"{texto_spanish}\" ha sido catalogado como: "
+        if scores['compound'] >= 0.05 :
+          analysis_result += "positivo"
+        elif scores['compound'] <= - 0.05 :
+          analysis_result += "negativo"
+        else :
+          analysis_result += "neutral"
+
+        result = {
+          "success": True,
+          "scores": scores,
+          "diagnosis": analysis_result
+        }
+      except Exception as e:
+        result = {'success': False, 'error_code': 'ERROR_NLTK', 'error_message': str(e)}
+    else:
+      raise HTTPException(status_code=400, detail="Petición incorrecta. Enviar parámetro text.")
+
+    return result
+
+  """
+  TODO: En construcción...
+  """
   def ocr(self, file_contents: bytes, file_name: str):
     pytesseract.pytesseract.tesseract_cmd = 'D:/Tesseract-OCR/tesseract.exe'
 

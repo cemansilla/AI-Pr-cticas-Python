@@ -13,7 +13,7 @@ def home():
   return dashboard_controller.get_dashboard()
 
 @router.post("/api/test/ocr")
-async def do_telegram_set_webhook(file: UploadFile, file_name: str = Form(...)):
+async def do_parse_ocr(file: UploadFile, file_name: str = Form(...)):
   custom_controller = CustomController()
   file_contents = await file.read()
 
@@ -74,6 +74,12 @@ async def do_image_generate(request: Request):
 
   return stable_diffusion_controller.generate_from_prompt(body)
 
+@router.get("/pyapi/sd/models")
+async def do_image_generate():
+  stable_diffusion_controller = StableDiffusionController()
+
+  return stable_diffusion_controller.get_models()
+
 @router.post("/pyapi/post-rrss")
 async def do_postrrss_generate(request: Request):
   custom_controller = CustomController()
@@ -81,8 +87,9 @@ async def do_postrrss_generate(request: Request):
 
   return custom_controller.generate_post_rrss(body)
 
-@router.get("/pyapi/sd/models")
-async def do_image_generate():
-  stable_diffusion_controller = StableDiffusionController()
+@router.post("/pyapi/sentiment")
+async def do_parse_sentiment(request: Request):
+  custom_controller = CustomController()
+  body = await request.json()
 
-  return stable_diffusion_controller.get_models()
+  return custom_controller.sentiment(body)
