@@ -23,7 +23,7 @@ class StableDiffusionService:
 
     return file_name
 
-  def generate_from_prompt(self, prompt: str, ckpt: str):
+  def generate_from_prompt(self, prompt: str, ckpt: str, width=512, height=512):
     payload = {
       "prompt": prompt,
       #"steps": 20
@@ -31,7 +31,8 @@ class StableDiffusionService:
     
     # docs: https://github.com/AUTOMATIC1111/stable-diffusion-webui/discussions/3734
     override_settings = {}
-    #override_settings["CLIP_stop_at_last_layers"] = 2
+    override_settings["width"] = width
+    override_settings["height"] = height
 
     ckpt_model = False
     if ckpt == 'inkpunk_diffusion':
