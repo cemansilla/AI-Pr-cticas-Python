@@ -1,6 +1,7 @@
 from fastapi import APIRouter,Request,UploadFile,Form
 from controllers.api.openai.chatgpt_controller import ChatGPTController
 from controllers.api.openai.whisper_controller import WhisperController
+from controllers.api.custom.text_to_speech_controller import TextToSpeechController
 from controllers.api.telegram.telegram_controller import TelegramController
 from controllers.api.stable_diffusion.stable_diffusion_controller import StableDiffusionController
 from controllers.api.custom.custom_controller import CustomController
@@ -66,6 +67,13 @@ async def do_speech_to_text(file: UploadFile, file_name: str = Form(...)):
   file_contents = await file.read()
 
   return await whisper_controller.speech_to_text(file_contents, file_name)
+
+@router.post("/pyapi/text-to-speech")
+async def do_text_to_speech(request: Request):
+  tts_controller = TextToSpeechController()
+  body = await request.json()
+
+  return tts_controller.text_to_speech(body)
 
 @router.post("/pyapi/image")
 async def do_image_generate(request: Request):

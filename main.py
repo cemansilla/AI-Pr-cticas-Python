@@ -16,6 +16,7 @@ app.add_middleware(
 )
 
 app.mount("/images", StaticFiles(directory="data/images/api/stable-diffusion"), name="images")
+app.mount("/audios", StaticFiles(directory="data/audios"), name="audios")
 
 app.include_router(router)
 
