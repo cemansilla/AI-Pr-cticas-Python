@@ -48,3 +48,8 @@ Actualizar submodulos:
 
 Levantar el SD WebUI en modo API: `python launch.py --nowebui`
 En caso de que cambie la URL o puerto, hay que actualizar la API de Laravel, ya que utiliza esta URL para obtener las imágenes.
+
+## Tesseract OCR
+Descarga: `https://github.com/UB-Mannheim/tesseract/wiki`
+
+Configuración en Windows: `pytesseract.pytesseract.tesseract_cmd = 'C:/OCR/Tesseract-OCR/tesseract.exe'  # your path may be different`

@@ -12,6 +12,13 @@ router = APIRouter()
 def home():
   return dashboard_controller.get_dashboard()
 
+@router.post("/api/test/ocr")
+async def do_telegram_set_webhook(file: UploadFile, file_name: str = Form(...)):
+  custom_controller = CustomController()
+  file_contents = await file.read()
+
+  return custom_controller.ocr(file_contents, file_name)
+
 @router.post("/api/telegram/set-webhook")
 async def do_telegram_set_webhook(request: Request):
   telegram_controller = TelegramController()

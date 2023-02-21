@@ -1,4 +1,8 @@
 import requests
+import pytesseract
+import nltk
+from PIL import Image
+import os
 from fastapi import HTTPException
 from services.openai_service import OpenAIService
 from services.stable_diffusion_service import StableDiffusionService
@@ -56,6 +60,63 @@ class CustomController:
 
     self.openai = OpenAIService()
     self.sd = StableDiffusionService()
+
+  def ocr(self, file_contents: bytes, file_name: str):
+    pytesseract.pytesseract.tesseract_cmd = 'D:/Tesseract-OCR/tesseract.exe'
+
+    directory = 'data/images/ocr'
+    path = os.path.join(directory, file_name)
+
+    if not os.path.exists(directory):
+      os.makedirs(directory)
+
+    with open(path, 'wb') as f:
+      f.write(file_contents)
+
+    image = Image.open(path)
+    to_string = pytesseract.image_to_string(image)
+    to_osd = pytesseract.image_to_osd(image)
+    to_data = pytesseract.image_to_data(image)
+
+    # Procesar el texto
+    nltk.download('punkt')
+    nltk.download('averaged_perceptron_tagger')
+    tokens = nltk.word_tokenize(to_string)
+    tags = nltk.pos_tag(tokens)
+
+    productos = self.parse_tags(tags)    
+
+    """
+    "file_name": file_name,
+    "to_string": to_string,
+    "to_data": to_data,
+    "to_osd": to_osd,
+    "tokens": tokens,
+    """
+    return {
+      "success": True,
+      "productos": productos,
+    }
+
+  """
+  TODO: Funcionalidad a desarrollar
+        Depende de la estructura de cada ticket
+        Debería retornar la data y en caso de no poder hacerlo debería almacenar en base de datos
+        alguna marca que indique que hay que reprocesar el ticket
+  """
+  def parse_tags(self, tags):
+    productos = [
+      {"item":"Fake name","price":123.34},
+      {"item":"Fake name 1","price":231.46},
+      {"item":"Fake name 2","price":332.97},
+    ]
+    """
+    productos = []
+    for i, (item, pos) in enumerate(tags):
+      print(i, item, pos)
+    """
+
+    return productos
 
   def generate_post_rrss(self, request):    
     result = None
